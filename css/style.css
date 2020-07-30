@@ -1,0 +1,150 @@
+body {
+  margin:auto;
+  padding:0;
+
+}
+
+.wrapper{
+  margin: auto;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(230, 230, 61, 0.479);
+}
+#intr{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10%;
+  padding: 10px;
+  width: 70%;
+  background-color: white;
+  height: 70%;
+}
+/*確認エリア
+---------------------*/
+
+.wrapper{
+  display: none;
+}
+
+/*-------最初のシーン-------------*/
+#intrchapter1{
+  display: none;
+
+}
+#intrchapter2{
+  display: none;
+}
+#intrchapter3{
+  display: none;
+}
+/*----------メインエリア-------------*/                   
+main{
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /* background-image: url(../img/bg.jpg); */
+  background-size: cover;
+  background-color: #72a782;
+  background-blend-mode:hard-light ;
+}
+/*---------チャートのエリア全体-----------*/
+#mainarea{
+  margin: auto 20px;
+  padding: 20px;
+  width: 80vw;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* overflow: auto; */
+}
+/*---チャートが返るエリア---*/
+#chart{
+  width: 800px;
+}
+
+
+/*---チャートが返るID---*/
+#chart_div{
+  width: auto;
+  height: 500px;
+  border-radius: 30px;
+  color: #72a782;
+  /* overflow: auto; */
+}
+
+/*----------四本値の入力-------------*/
+#input4{
+  position: relative; 
+  width: 100%; 
+  height: 200px;
+  display:block;
+} 
+#input_div{
+  display: flex;
+  justify-content: center;
+}
+.day_container{
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+.day{
+  width: 250px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  align-content: space-around;
+  flex-direction: column;
+  color: beige;
+}
+.day input{
+  width: 150px;
+  height: 25px;
+  border-radius: 8px;
+  font-size: 20px;
+  color: #555555;
+}
+
+/*------------左の説明エリア------------*/
+#leftarea{
+  margin: auto 20px;
+  padding: 30px 10px;
+  width: 20vw;
+  height: 100vh;
+  color: rgb(2, 48, 15);
+  background-color:rgba(255, 255, 255, 0.493);
+    display: flex;
+  flex-direction: column;
+
+
+}
+/*-----------生成ボタン------------*/
+.btn{
+  font-size: 20px;
+  border-radius: 5px;
+  width: 170px;
+  color: #555555;
+  text-align: left;
+}
+#btn_container{
+  position: relative;
+  bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#chaet{
+  border: none;
+  background-color: #72a782;
+}
+
+
