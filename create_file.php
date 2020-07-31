@@ -67,7 +67,12 @@ if ($status == false) {
   echo json_encode(["error_msg" => "{$error[2]}"]);
   exit();
 } else {
-  $fp = fopen($fileNameToSavepath, 'r');
+//
+
+
+
+  ///////////////
+  $fp = fopen($fileNameToSave, 'r');
   $data = array();
   while ($ret_csv = fgetcsv($fp, 256)) {
     for ($col = 0; $col < count($ret_csv); $col++) {
@@ -76,20 +81,7 @@ if ($status == false) {
     $row++;
   }
   fclose($fp);
-  echo json_encode($data);
-
-
-  ///////////////
-  // $fp = fopen($fileNameToSave, 'r');
-  // $data = array();
-  // while ($ret_csv = fgetcsv($fp, 256)) {
-  //   for ($col = 0; $col < count($ret_csv); $col++) {
-  //     $data[$col][$row] = $ret_csv[$col];
-  //   }
-  //   $row++;
-  // }
-  // fclose($fp);
-  // echo json_encode($result);
+  echo json_encode($result);
 ////////////
 
   header("Location:index.html");

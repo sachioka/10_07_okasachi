@@ -13,10 +13,8 @@
   <main>
     <div id="leftarea">
       <div><input type="button" value="データ登録へ" id="GoToset_csv" class="btn" onclick="location.href='set_csv.php'"></div>
-      <div><input type="button" value="①チャート生成" id="check" class="btn"></div>
-      <div><input type="button" value="②答え合わせ" id="judge" class="btn"></div>
       <div><input type="text" id="show" class="btn"></div>
-      <div><input type="button" value="③リトライ" id="all_clear" class="btn"></div>
+
       <div id="resultarea">
         <!-- ここに<tr><td>deadline</td><td>todo</td><tr>の形でデータが入る -->
       </div>
@@ -34,27 +32,7 @@
         <div id="input_div">
           <!--四本値は下-->
           <div class="day_container">
-            <div id="day1" class="day">
-              <div>1日目</div>
-              <div>始値<input class="c_1" type="number" min="450" max="700" step="10" id="d1c1"></div>
-              <div>高値<input class="c_2" type="number" min="450" max="700" step="10" id="d1c2"></div>
-              <div>安値<input class="c_3" type="number" min="450" max="700" step="10" id="d1c3"></div>
-              <div>終値<input class="c_4" type="number" min="450" max="700" step="10" id="d1c4"></div>
-            </div>
-            <div id="day2" class="day">
-              <div>２日目</div>
-              <div><input class="c_1" type="number" min="450" max="700" step="10" id="d2c1"></div>
-              <div><input class="c_2" type="number" min="450" max="700" step="10" id="d2c2"></div>
-              <div><input class="c_3" type="number" min="450" max="700" step="10" id="d2c3"></div>
-              <div><input class="c_4" type="number" min="450" max="700" step="10" id="d2c4"></div>
-            </div>
-            <div id="day3" class="day">
-              <div>３日目</div>
-              <div><input class="c_1" type="number" min="450" max="700" step="10" id="d3c1"></div>
-              <div><input class="c_2" type="number" min="450" max="700" step="10" id="d3c2"></div>
-              <div><input class="c_3" type="number" min="450" max="700" step="10" id="d3c3"></div>
-              <div><input class="c_4" type="number" min="450" max="700" step="10" id="d3c4"></div>
-            </div>
+
           </div>
         </div>
       </div>
@@ -125,13 +103,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-  $(function () {
-    $('#show').on('keyup', function () {
+  $(function() {
+    $('#show').on('keyup', function() {
       console.log($(this).val());
       const serchWord = $(this).val();
       const requestUrl = 'ajax_get.php';
       axios.get(`${requestUrl}?serchWord=${serchWord}`)
-        .then(function (response) {
+        .then(function(response) {
           console.log(response.data);
           let result = response.data.map(x =>
             `<tr><td><button type="button" class="code" value="${x.csv_file}">${x.stockcode}</button></td><td>${x.stockname}</td></tr>`
@@ -139,9 +117,8 @@
           console.log(result)
           $('#resultarea').html(result);
         })
-        .catch(function (error) {
-        })
-        .finally(function () {
+        .catch(function(error) {})
+        .finally(function() {
 
         });
     });
@@ -149,53 +126,158 @@
   });
 
 
-  $(function () {
-    $(document).on("click", ".code" ,function () {
+  $(function() {
+    $(document).on("click", ".code", function() {
       console.log($(this).val());
       const path = $(this).val();
       const requestUrl = 'ajax_get_copy.php';
       axios.get(`${requestUrl}?path=${path}`)
-        .then(function (response) {
+        .then(function(response) {
           console.log(response);
-          // let result = response.data.map(x =>
-          //   `<tr><td><button type="button" class="code" value="${x.csv_file}">${x.stockcode}</button></td><td>${x.stockname}</td></tr>`
-          // );
-          // console.log(result)
-          // $('#resultarea').html(result);
+
+          let dataA = [
+            response.data['0'],
+            response.data['3'],
+            response.data['4'],
+            response.data['1'],
+            response.data['2']
+          ];
+          console.log(dataA[1]);
+
+
+
+
+
+
+
+
+
+
+
+
+          $(function() {
+            // ライブラリのロード
+            // name:visualization(可視化),version:バージョン(1.1),packages:パッケージ(corechart)
+            google.load('visualization', '1', {
+              'packages': ['corechart']
+            });
+
+            // グラフを描画する為のコールバック関数を指定
+            google.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+              //最初に表示されるチャート用のデータを宣言
+              // let basedata = [
+              //   ["1日目", 520, 520, 600, 680],
+              //   ["2日目", 520, 650, 580, 650],
+              //   ["3日目", 490, 550, 520, 600]
+              // ];
+              let basedata = [
+                [dataA[0][1], Number(dataA[1][1]), Number(dataA[2][1]), Number(dataA[3][1]), Number(dataA[4][1])],
+                [dataA[0][2], Number(dataA[1][2]), Number(dataA[2][2]), Number(dataA[3][2]), Number(dataA[4][2])],
+                [dataA[0][3], Number(dataA[1][3]), Number(dataA[2][3]), Number(dataA[3][3]), Number(dataA[4][3])],
+                [dataA[0][4], Number(dataA[1][4]), Number(dataA[2][4]), Number(dataA[3][4]), Number(dataA[4][4])],
+                [dataA[0][5], Number(dataA[1][5]), Number(dataA[2][5]), Number(dataA[3][5]), Number(dataA[4][5])],
+                [dataA[0][6], Number(dataA[1][6]), Number(dataA[2][6]), Number(dataA[3][6]), Number(dataA[4][6])],
+                [dataA[0][7], Number(dataA[1][7]), Number(dataA[2][7]), Number(dataA[3][7]), Number(dataA[4][7])]
+              ];
+              console.log(basedata);
+
+              //-----------------------------------------------------------
+              // データの順 安値,終値,始値,高値
+              // ※Excelだと始値,高値,安値,終値の順番
+              var data = new google.visualization.arrayToDataTable([
+                basedata[0],
+                basedata[1],
+                basedata[2],
+                basedata[3],
+                basedata[4],
+                basedata[5]
+              ], true);
+              console.log(data);
+              // オプションの設定
+              var options = {
+                legend: 'none',
+                vAxis: {
+                  gridlines: {
+                    count: 21,
+                    color: '#0c5020'
+                  },
+                  title: '株価'
+                },
+                colors: ['darkslategray', '#004411'],
+                animation: {
+                  startup: true,
+                  duration: 1000
+                },
+                backgroundColor: '#72a782'
+              };
+
+              // 指定されたIDの要素にローソク足を作成
+              let chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+              // グラフの描画
+              chart.draw(data, options);
+
+              $('#save_status').html('');
+            }
+          });
+
+
+
+
+
+
+
+
+
+
         })
-        .catch(function (error) {
-        })
-        .finally(function () {
+        .catch(function(error) {})
+        .finally(function() {
 
         });
     });
-
   });
 
-  
-//   $(function () {
-//   });
+
+  //   $(function () {
+  //   });
 
 
 
 
   //Googl Chart
-  $(function () {
+  $(function() {
     ////////////////////////////ajax//////////////////////////////////
     //データを取得して取得したデータのリストをどこかに表示させてそのボタンをクリックするとチャートが生成される
 
     ////////////////////////////ajax//////////////////////////////////
     // ライブラリのロード
     // name:visualization(可視化),version:バージョン(1.1),packages:パッケージ(corechart)
-    google.load('visualization', '1', { 'packages': ['corechart'] });
+    google.load('visualization', '1', {
+      'packages': ['corechart']
+    });
 
     // グラフを描画する為のコールバック関数を指定
     google.setOnLoadCallback(drawChart);
 
     function drawChart() {
       //最初に表示されるチャート用のデータを宣言
-      let basedata = [["1日目", 520, 520, 600, 680], ["2日目", 520, 650, 580, 650], ["3日目", 490, 550, 520, 600]];
-
+      let basedata = [
+        ["1日目", 520, 520, 600, 680],
+        ["2日目", 520, 650, 580, 650],
+        ["3日目", 490, 550, 520, 600]
+      ];
+      // let basedata = [
+      //   [dataA[0][1], dataA[1][1], dataA[2][1], dataA[3][1], dataA[4][1], dataA[5][1]],
+      //   [dataA[0][2], dataA[1][2], dataA[2][2], dataA[3][2], dataA[4][2], dataA[5][2]],
+      //   [dataA[0][3], dataA[1][3], dataA[2][3], dataA[3][3], dataA[4][3], dataA[5][3]],
+      //   [dataA[0][4], dataA[1][4], dataA[2][4], dataA[3][4], dataA[4][4], dataA[5][4]],
+      //   [dataA[0][5], dataA[1][5], dataA[2][5], dataA[3][5], dataA[4][5], dataA[5][5]],
+      //   [dataA[0][6], dataA[1][6], dataA[2][6], dataA[3][6], dataA[4][6], dataA[5][6]],
+      //   [dataA[0][7], dataA[1][7], dataA[2][7], dataA[3][7], dataA[4][7], dataA[5][7]]
+      // ];
 
       if (localStorage.getItem('candle')) {
         //JSONデータをローカルストレージから取ってくる
@@ -204,8 +286,8 @@
         const dataself = JSON.parse(jsonData);
         let dataself_num = [];
         for (let i = 0; i < 3; i++) {
-          var day = [];//この先繰り返す
-          day.push(dataself[i][0]);//この先繰り返す
+          var day = []; //この先繰り返す
+          day.push(dataself[i][0]); //この先繰り返す
           for (let j = 1; j < 5; j++) {
             var num = parseFloat(dataself[i][j]);
             day.push(num);
@@ -221,9 +303,20 @@
         //最大値と最小値を変数に入れておく必要があるかも？
         var options = {
           legend: 'none',
-          vAxis: { minValue: 460, maxValue: 690, gridlines: { count: 20, color: '#0c5020' }, title: '株価' },
+          vAxis: {
+            minValue: 460,
+            maxValue: 690,
+            gridlines: {
+              count: 20,
+              color: '#0c5020'
+            },
+            title: '株価'
+          },
           colors: ['darkslategray', '#004411'],
-          animation: { startup: true, duration: 3000 },
+          animation: {
+            startup: true,
+            duration: 3000
+          },
           backgroundColor: '#72a782'
         };
 
@@ -261,15 +354,29 @@
         var data = new google.visualization.arrayToDataTable([
           basedata[0],
           basedata[1],
+          basedata[1],
+          basedata[1],
+          basedata[1],
           basedata[2]
         ], true);
         console.log(data);
         // オプションの設定
         var options = {
           legend: 'none',
-          vAxis: { minValue: 460, maxValue: 690, gridlines: { count: 21, color: '#0c5020' }, title: '株価' },
+          vAxis: {
+            minValue: 460,
+            maxValue: 690,
+            gridlines: {
+              count: 21,
+              color: '#0c5020'
+            },
+            title: '株価'
+          },
           colors: ['darkslategray', '#004411'],
-          animation: { startup: true, duration: 1000 },
+          animation: {
+            startup: true,
+            duration: 1000
+          },
           backgroundColor: '#72a782'
         };
 
@@ -282,6 +389,6 @@
       $('#save_status').html('');
     }
   });
-
 </script>
+
 </html>
